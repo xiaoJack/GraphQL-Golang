@@ -21,7 +21,7 @@ func NewDetailsController(logger *zap.Logger, s services.DetailsService) *Detail
 }
 
 func (pc *DetailsController) Get(c *gin.Context) {
-	ID, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	ID, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		_ = c.AbortWithError(http.StatusBadRequest, err)
 		return

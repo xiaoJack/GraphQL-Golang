@@ -1,0 +1,15 @@
+
+input NewDetail {
+  name: String!
+  price: Float!
+}
+
+type Mutation {
+  createDetail(input: NewDetail!): Detail!
+}
+
+
+
+
+
+#curl 'http://192.168.1.101:8085/query' -H 'content-type: application/json' --data-raw '{"query":"\nmutation{\n   \n  createDetail(input: { name: \"todo\",   price:  0.01 }){\n    id\n    name\n    price\n    created_time\n  }\n}\n\n"}' \

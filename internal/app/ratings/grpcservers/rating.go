@@ -22,7 +22,7 @@ func NewRatingsServer(logger *zap.Logger, ps services.RatingsService) (*RatingsS
 }
 
 func (s *RatingsServer) Get(ctx context.Context, req *proto.GetRatingRequest) (*proto.Rating, error) {
-	r, err := s.service.Get(req.ProductID)
+	r, err := s.service.Get(uint64(req.ProductID))
 	if err != nil {
 		return nil, errors.Wrap(err, "product grpc service get rating error")
 	}

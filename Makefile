@@ -8,6 +8,9 @@ run: proto wire
 .PHONY: wire
 wire:
 	wire ./...
+.PHONY: gqlgen
+gqlgen:
+	gqlgen --config configs/gqlgen.yml
 .PHONY: test
 test: mock
 	for app in $(apps) ;\
@@ -35,7 +38,8 @@ lint:
 	golint ./...
 .PHONY: proto
 proto:
-	protoc -I api/proto -I ${GOPATH}/src/github.com/protocolbuffers/protobuf/src ./api/proto/* --go_out=plugins=grpc:api/proto
+	rm -f api/proto/*.go
+	protoc -I api/proto -I ${GOPATH}/src/github.com/protocolbuffers/protobuf/src ./api/proto/* --go_out=api/proto --go-grpc_out=require_unimplemented_servers=false:api/proto/
 .PHONY: dash
 dash: # create grafana dashboard
 	 for app in $(apps) ;\

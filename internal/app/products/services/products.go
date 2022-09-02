@@ -10,7 +10,7 @@ import (
 )
 
 type ProductsService interface {
-	Get(c context.Context, ID uint64) (*models.Product, error)
+	Get(c context.Context, ID int64) (*models.Product, error)
 }
 
 type DefaultProductsService struct {
@@ -32,7 +32,7 @@ func NewProductService(logger *zap.Logger,
 	}
 }
 
-func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *models.Product, err error) {
+func (s *DefaultProductsService) Get(c context.Context, productID int64) (p *models.Product, err error) {
 	var (
 		detail  *models.Detail
 		rating  *models.Rating
@@ -53,7 +53,8 @@ func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *mo
 
 		detail = &models.Detail{
 			ID:          pd.Id,
-			Price:       pd.Price,
+			Name:        pd.Name,
+			Price:       float64(pd.Price),
 			CreatedTime: ct,
 		}
 	}
@@ -72,6 +73,7 @@ func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *mo
 
 		rating = &models.Rating{
 			ID:          pr.Id,
+			ProductID:   pr.ProductID,
 			Score:       pr.Score,
 			UpdatedTime: ut,
 		}

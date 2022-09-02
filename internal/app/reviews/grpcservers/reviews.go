@@ -22,7 +22,7 @@ func NewReviewsServer(logger *zap.Logger, ps services.ReviewsService) (*ReviewsS
 }
 
 func (s *ReviewsServer) Query(ctx context.Context, req *proto.QueryReviewsRequest) (*proto.QueryReviewsResponse, error) {
-	rs, err := s.service.Query(req.ProductID)
+	rs, err := s.service.Query(uint64(req.ProductID))
 	if err != nil {
 		return nil, errors.Wrap(err, "reviews grpc service get reviews error")
 	}

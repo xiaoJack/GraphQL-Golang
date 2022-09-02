@@ -8,7 +8,8 @@ import (
 )
 
 type DetailsService interface {
-	Get(ID uint64) (*models.Detail, error)
+	Get(ID int64) (*models.Detail, error)
+	Add(req *models.Detail) (p *models.Detail, err error)
 }
 
 type DefaultDetailsService struct {
@@ -23,10 +24,19 @@ func NewDetailService(logger *zap.Logger, Repository repositories.DetailsReposit
 	}
 }
 
-func (s *DefaultDetailsService) Get(ID uint64) (p *models.Detail, err error) {
+func (s *DefaultDetailsService) Get(ID int64) (p *models.Detail, err error) {
 	if p, err = s.Repository.Get(ID); err != nil {
 		return nil, errors.Wrap(err, "detail service get detail error")
 	}
 
 	return
+}
+
+func (s *DefaultDetailsService) Add(req *models.Detail) (p *models.Detail, err error) {
+
+	if p, err = s.Repository.Add(req); err != nil {
+		return nil, errors.Wrap(err, "detail service Add detail error")
+	}
+
+	return p, err
 }

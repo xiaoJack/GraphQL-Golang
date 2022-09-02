@@ -18,7 +18,7 @@ func TestDetailsRepository_Get(t *testing.T) {
 
 	tests := []struct {
 		name     string
-		id       uint64
+		id       int64
 		expected bool
 	}{
 		{"id=1", 1, true},

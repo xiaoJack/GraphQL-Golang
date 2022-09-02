@@ -12,7 +12,7 @@ log:
   maxBackups: 3
   maxAge: 3
   level: "debug"
-  stdout: false
+  stdout: true
 consul:
   addr: consul:8500
 grpc:

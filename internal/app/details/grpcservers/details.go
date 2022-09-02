@@ -6,7 +6,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xiaoJack/GraphQL-Golang/api/proto"
 	"github.com/xiaoJack/GraphQL-Golang/internal/app/details/services"
+	"github.com/xiaoJack/GraphQL-Golang/internal/pkg/models"
 	"go.uber.org/zap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type DetailsServer struct {
@@ -32,10 +34,28 @@ func (s *DetailsServer) Get(ctx context.Context, req *proto.GetDetailRequest) (*
 	}
 
 	resp := &proto.Detail{
-		Id:          uint64(p.ID),
+		Id:          p.ID,
 		Name:        p.Name,
-		Price:       p.Price,
+		Price:       float32(p.Price),
 		CreatedTime: ct,
+	}
+
+	return resp, nil
+}
+
+func (s *DetailsServer) Add(ctx context.Context, req *proto.Detail) (*proto.Detail, error) {
+	p, err := s.service.Add(&models.Detail{Name: req.Name, Price: float64(req.Price)})
+
+	s.logger.Debug("Add", zap.Any("p", p), zap.Any("err", err))
+	if err != nil {
+		return nil, errors.Wrap(err, "details grpc service get detail error")
+	}
+
+	resp := &proto.Detail{
+		Id:          p.ID,
+		Name:        p.Name,
+		Price:       float32(p.Price),
+		CreatedTime: timestamppb.New(p.CreatedTime),
 	}
 
 	return resp, nil

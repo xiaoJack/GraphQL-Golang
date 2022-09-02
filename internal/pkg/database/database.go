@@ -11,7 +11,6 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // Options is  configuration of database
@@ -41,9 +40,6 @@ func New(o *Options, logger *zap.Logger) (*gorm.DB, error) {
 	gormLog.SetAsDefault()
 
 	dbConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true, // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
-		},
 		Logger: gormLog,
 		NowFunc: func() time.Time {
 			return time.Unix(time.Now().UTC().Unix(), 0)

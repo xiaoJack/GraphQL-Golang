@@ -8,7 +8,7 @@ service Reviews {
 }
 
 message QueryReviewsRequest {
-    uint64 productID = 1;
+    int64 productID = 1;
 }
 
 message Review {
