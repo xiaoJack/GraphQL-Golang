@@ -1,0 +1,19 @@
+scalar Time
+
+# 商品详情
+type Detail {
+  id: ID! # 商品ID
+  name: String! #商品名称
+  price: Float! # 商品价格
+  created_time: Time! # 商品创建时间
+}
+
+
+
+type Query {
+  products(id: Int!): Detail!
+}
+
+
+
+#curl 'http://192.168.1.101:8085/query' -H 'content-type: application/json' --data-raw '{"query":"\n    {\n      products(id: 1) {\n        name\n        id\n        price\n        created_time\n      }\n    }\n"}'
